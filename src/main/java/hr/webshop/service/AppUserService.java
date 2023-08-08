@@ -15,8 +15,8 @@ public class AppUserService {
         this.repo = repo;
     }
 
-    public AppUser saveAppUser(AppUser appUser) {
-        return repo.save(appUser);
+    public void saveAppUser(AppUser appUser) {
+        repo.save(appUser);
     }
 
 

@@ -14,18 +14,23 @@ import org.springframework.security.web.SecurityFilterChain;
 @EnableMethodSecurity
 public class WebSecurityConfig {
 
+//    @Bean
+//    public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
+//        http
+//                .authorizeHttpRequests((requests) -> requests
+//                        .requestMatchers("/registration.html").permitAll()
+//                        .anyRequest().authenticated()
+//                );
+//
+//        return http.build();
+//    }
+
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
-        http
-                .authorizeHttpRequests((requests) -> requests
-                        .requestMatchers("/registration.html").permitAll()
-                        .anyRequest().authenticated()
-                );
+        http.authorizeHttpRequests((requests) -> requests.anyRequest().permitAll());
 
         return http.build();
     }
-
-
 
 
 
