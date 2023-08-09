@@ -1,10 +1,7 @@
 package hr.webshop.entity;
 
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
 import lombok.Data;
-import lombok.NoArgsConstructor;
-
 import java.util.Date;
 
 @Entity
@@ -22,9 +19,9 @@ public class AppUser {
     private Long id;
 
     @Column(name = "firstname")
-    private String firstName;
+    private String firstname;
     @Column(name = "lastname")
-    private String lastName;
+    private String lastname;
     @Column(name = "email")
     private String email;
     @Column(name = "password")
