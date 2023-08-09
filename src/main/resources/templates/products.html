@@ -8,5 +8,79 @@
 
 <div th:replace="fragments/usernavbar"></div>
 
+<style>
+    .card-holder{
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: center;
+
+    }
+
+    .product-card{
+        width: 200px;
+        border: 1px solid gray;
+        border-radius: 15px;
+        margin: 20px;
+        text-align: center;
+        color: black;
+        box-shadow: rgba(0, 0, 0, 0.15) 1.95px 1.95px 2.6px;
+
+    }
+
+    .electronics{
+        border: 1px solid blue;
+    }
+
+    .sports{
+        border: 1px solid green;
+    }
+
+    .books{
+        border: 1px solid saddlebrown;
+    }
+
+    .toys{
+        border: 1px solid rebeccapurple;
+    }
+
+    .office-supplies{
+        border: 1px solid gray;
+    }
+
+    .tools{
+        border: 1px solid black;
+    }
+
+    .musical-instruments{
+        border: 1px solid yellowgreen;
+    }
+
+</style>
+
+<div class="card-holder">
+
+    <div class="product-card" th:each="product : ${products}"
+         th:classappend="${product.category.name.replace(' ', '-').toLowerCase()}">
+
+        <div>
+            <h3 th:text="${product.name}"></h3>
+        </div>
+
+        <div>
+            <p>Stock: <span th:text="${product.stock}"></span></p>
+        </div>
+
+        <div>
+            <p>Price: <span th:text="${product.price}"></span></p>
+        </div>
+
+        <div>
+            <p>Category: <span th:text="${product.category.name}"></span></p>
+        </div>
+
+    </div>
+
+</div>
+
 </body>
 </html>
