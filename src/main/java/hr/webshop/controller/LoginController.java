@@ -26,7 +26,10 @@ public class LoginController {
 
     @PostMapping("/register")
     public String registerUser(@ModelAttribute("user") AppUser user){
+        if (user == null){
+            return "error";
+        }
         service.saveAppUser(user);
-        return "registration";
+        return "success";
     }
 }
