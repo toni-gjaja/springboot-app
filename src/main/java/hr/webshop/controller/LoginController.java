@@ -32,4 +32,20 @@ public class LoginController {
         service.saveAppUser(user);
         return "success";
     }
+
+    @GetMapping("/login")
+    public String getLoginPage(Model model){
+        model.addAttribute("user", new AppUser());
+        return "login";
+    }
+
+    @GetMapping("/adminlogin")
+    public String getAdminLoginPage(Model model){
+        model.addAttribute("user", new AppUser());
+        return "adminlogin";
+    }
+
+
+
+
 }

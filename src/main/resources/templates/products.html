@@ -76,7 +76,7 @@
 
 </style>
 
-<div class="card-holder">
+<div class="card-holder" data-aos="fade-up">
 
     <div class="product-card" th:each="product : ${products}"
          th:classappend="${product.category.name.replace(' ', '-').toLowerCase()}">
