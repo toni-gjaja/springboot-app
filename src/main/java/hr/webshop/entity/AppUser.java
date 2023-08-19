@@ -1,11 +1,13 @@
 package hr.webshop.entity;
 
 import jakarta.persistence.*;
+import lombok.AllArgsConstructor;
 import lombok.Data;
 import java.util.Date;
 
 @Entity
 @Data
+@AllArgsConstructor
 @Table(name = "appuser")
 public class AppUser {
 
@@ -31,4 +33,6 @@ public class AppUser {
     @Column(name = "isadmin")
     private boolean isAdmin;
 
+    public AppUser(String firstname, String lastname, String email, String password, Date createdAt, boolean admin) {
+    }
 }

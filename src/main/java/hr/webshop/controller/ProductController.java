@@ -27,16 +27,14 @@ public class ProductController {
         return "products";
     }
 
-    @GetMapping("/product/details/{productId}")
+    @GetMapping("/product/{productId}")
     public String getProductDetails(@PathVariable Long productId, Model model) {
         Optional<Product> product = service.getProductById(productId);
-        if (product.isPresent()){
-            Product modelProduct = product.get();
-            model.addAttribute("product", modelProduct);
-        }
-        else {
+        if (product.isEmpty()){
             return "error";
         }
+        Product modelProduct = product.get();
+        model.addAttribute("product", modelProduct);
         return "product";
     }
 
