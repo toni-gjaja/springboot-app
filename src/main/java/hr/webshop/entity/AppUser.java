@@ -33,6 +33,4 @@ public class AppUser {
     @Column(name = "isadmin")
     private boolean isAdmin;
 
-    public AppUser(String firstname, String lastname, String email, String password, Date createdAt, boolean admin) {
-    }
 }
