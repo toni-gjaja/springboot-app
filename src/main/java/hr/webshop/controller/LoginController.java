@@ -3,6 +3,7 @@ package hr.webshop.controller;
 import hr.webshop.entity.AppUser;
 import hr.webshop.service.AppUserService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -14,10 +15,12 @@ public class LoginController {
 
     private final AppUserService service;
 
-    @Autowired
-    public LoginController(AppUserService service) {
+    private final PasswordEncoder passwordEncoder;
 
+    @Autowired
+    public LoginController(AppUserService service, PasswordEncoder passwordEncoder) {
         this.service = service;
+        this.passwordEncoder = passwordEncoder;
     }
 
     @GetMapping("/registration")
@@ -33,6 +36,7 @@ public class LoginController {
         if (email){
             return "error";
         }
+        user.setPassword(passwordEncoder.encode(user.getPassword()));
         service.saveAppUser(user);
         return "login";
     }
