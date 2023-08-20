@@ -13,6 +13,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class AppUserService implements UserDetailsService {
@@ -28,21 +29,32 @@ public class AppUserService implements UserDetailsService {
         repo.save(appUser);
     }
 
+    public boolean checkExistingEmail(String email){ return repo.existsByEmail(email);}
 
     @Override
     public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
 
-        AppUser user = repo.findByEmail(email)
-                .orElseThrow(() -> new UsernameNotFoundException("User not found with email: " + email));
+        Optional<AppUser> appUser = repo.findByEmail(email);
 
-        List<GrantedAuthority> authorities = new ArrayList<>();
-        authorities.add(new SimpleGrantedAuthority("ROLE_USER"));
-
-        if (user.isAdmin()){
-            authorities.add(new SimpleGrantedAuthority("ROLE_ADMIN"));
+        if (appUser.isPresent()){
+            AppUser user = appUser.get();
+            List<GrantedAuthority> authorities = new ArrayList<>();
+            authorities.add(new SimpleGrantedAuthority(user.getRole()));
+            return new User(user.getEmail(), user.getPassword(), authorities);
         }
+        return null;
+    }
 
-        return new User(user.getEmail(), user.getPassword(), authorities);
+    public AppUser authenticateUser(String email, String password){
 
+        Optional<AppUser> appUser = repo.findByEmail(email);
+
+        if (appUser.isPresent()){
+            AppUser user = appUser.get();
+            if (user.getPassword().equals(password)){
+                return user;
+            }
+        }
+        return null;
     }
 }

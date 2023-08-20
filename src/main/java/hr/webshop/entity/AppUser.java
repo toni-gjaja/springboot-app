@@ -13,7 +13,7 @@ public class AppUser {
 
     public AppUser(){
         createdAt = new Date();
-        isAdmin = false;
+        role = "ROLE_USER";
     }
 
     @Id
@@ -30,7 +30,7 @@ public class AppUser {
     private String password;
     @Column(name = "createdat")
     private Date createdAt;
-    @Column(name = "isadmin")
-    private boolean isAdmin;
+    @Column(name = "role")
+    private String role;
 
 }
