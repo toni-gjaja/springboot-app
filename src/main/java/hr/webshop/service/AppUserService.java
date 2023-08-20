@@ -38,6 +38,13 @@ public class AppUserService implements UserDetailsService {
 
     public void saveUserLog(UserLog log){ logRepo.save(log); }
 
+    public AppUser getUserByEmail(String email){
+
+        Optional<AppUser> appUser = repo.findByEmail(email);
+        return appUser.orElse(null);
+
+    }
+
     @Override
     public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
 

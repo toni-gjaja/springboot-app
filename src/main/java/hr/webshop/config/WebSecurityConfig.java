@@ -45,7 +45,7 @@ public class WebSecurityConfig{
                         .loginProcessingUrl("/login")
                         .usernameParameter("email")
                         .passwordParameter("password")
-                        .successHandler(new CustomAuthenticationSuccessHandler(appUserService))
+                        .successHandler(new CustomAuthenticationSuccessHandler(appUserService, userDetailsService))
                         .permitAll()
                 )
                 .logout(LogoutConfigurer::permitAll);

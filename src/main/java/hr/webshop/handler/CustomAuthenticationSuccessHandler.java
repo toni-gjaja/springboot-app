@@ -6,6 +6,8 @@ import hr.webshop.service.AppUserService;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import org.springframework.security.core.Authentication;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
 
 import java.io.IOException;
@@ -15,17 +17,22 @@ public class CustomAuthenticationSuccessHandler implements AuthenticationSuccess
 
     private final AppUserService service;
 
-    public CustomAuthenticationSuccessHandler(AppUserService service) {
+    private final UserDetailsService userDetailsService;
+
+    public CustomAuthenticationSuccessHandler(AppUserService service, UserDetailsService userDetailsService) {
         this.service = service;
+        this.userDetailsService = userDetailsService;
+
     }
 
     @Override
     public void onAuthenticationSuccess(HttpServletRequest request, HttpServletResponse response, Authentication authentication) throws IOException{
 
-        AppUser authUser = (AppUser) authentication.getPrincipal();
-        String ipAddress = request.getRemoteAddr();
+        UserDetails userDetails = userDetailsService.loadUserByUsername(authentication.getName());
+        AppUser appUser = service.getUserByEmail(userDetails.getUsername());
+        String ipAddress = request.getLocalAddr();
 
-        UserLog log = new UserLog(new Date(), ipAddress, authUser);
+        UserLog log = new UserLog(new Date(), ipAddress, appUser);
 
         service.saveUserLog(log);
 
