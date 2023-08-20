@@ -6,6 +6,7 @@ import hr.webshop.service.AppUserService;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import org.springframework.security.core.Authentication;
+import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
@@ -36,7 +37,14 @@ public class CustomAuthenticationSuccessHandler implements AuthenticationSuccess
 
         service.saveUserLog(log);
 
-        response.sendRedirect("/profile");
+        for (GrantedAuthority ga : userDetails.getAuthorities()){
+            if (ga.getAuthority().equals("USER")){
+                response.sendRedirect("/profile");
+            }
+            else {
+                response.sendRedirect("/adminprofile");
+            }
+        }
 
     }
 }
