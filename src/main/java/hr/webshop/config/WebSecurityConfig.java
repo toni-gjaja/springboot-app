@@ -1,6 +1,8 @@
 package hr.webshop.config;
 
 
+import hr.webshop.handler.CustomAuthenticationSuccessHandler;
+import hr.webshop.service.AppUserService;
 import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
@@ -24,6 +26,8 @@ public class WebSecurityConfig{
 
     private UserDetailsService userDetailsService;
 
+    private AppUserService appUserService;
+
     @Bean
     public static PasswordEncoder passwordEncoder(){
         return new BCryptPasswordEncoder();
@@ -41,7 +45,7 @@ public class WebSecurityConfig{
                         .loginProcessingUrl("/login")
                         .usernameParameter("email")
                         .passwordParameter("password")
-                        .defaultSuccessUrl("/profile")
+                        .successHandler(new CustomAuthenticationSuccessHandler(appUserService))
                         .permitAll()
                 )
                 .logout(LogoutConfigurer::permitAll);

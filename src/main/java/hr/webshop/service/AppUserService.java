@@ -1,7 +1,9 @@
 package hr.webshop.service;
 
 import hr.webshop.entity.AppUser;
+import hr.webshop.entity.UserLog;
 import hr.webshop.repository.AppUserRepository;
+import hr.webshop.repository.LogRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
@@ -20,9 +22,12 @@ public class AppUserService implements UserDetailsService {
 
     private final AppUserRepository repo;
 
+    private final LogRepository logRepo;
+
     @Autowired
-    public AppUserService(AppUserRepository repo) {
+    public AppUserService(AppUserRepository repo, LogRepository logRepo) {
         this.repo = repo;
+        this.logRepo = logRepo;
     }
 
     public void saveAppUser(AppUser appUser) {
@@ -30,6 +35,8 @@ public class AppUserService implements UserDetailsService {
     }
 
     public boolean checkExistingEmail(String email){ return repo.existsByEmail(email);}
+
+    public void saveUserLog(UserLog log){ logRepo.save(log); }
 
     @Override
     public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
@@ -45,16 +52,4 @@ public class AppUserService implements UserDetailsService {
         return null;
     }
 
-    public AppUser authenticateUser(String email, String password){
-
-        Optional<AppUser> appUser = repo.findByEmail(email);
-
-        if (appUser.isPresent()){
-            AppUser user = appUser.get();
-            if (user.getPassword().equals(password)){
-                return user;
-            }
-        }
-        return null;
-    }
 }

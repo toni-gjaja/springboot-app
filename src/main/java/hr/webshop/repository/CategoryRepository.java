@@ -1,4 +1,4 @@
 package hr.webshop.repository;
 
-public class CategoryRepository {
+public interface CategoryRepository {
 }
