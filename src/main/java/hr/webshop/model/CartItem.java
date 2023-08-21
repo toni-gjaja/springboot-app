@@ -2,8 +2,6 @@ package hr.webshop.model;
 
 import hr.webshop.entity.Product;
 
-import java.math.BigDecimal;
-
 public class CartItem {
 
     Product product;

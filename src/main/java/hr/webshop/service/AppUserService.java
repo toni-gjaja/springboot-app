@@ -38,6 +38,13 @@ public class AppUserService implements UserDetailsService {
 
     public void saveUserLog(UserLog log){ logRepo.save(log); }
 
+    public List<AppUser> getAllUsers(){
+
+        List<AppUser> users = repo.findAll();
+        users.removeIf(user -> "ROLE_ADMIN".equals(user.getRole()));
+        return users;
+    }
+
     public AppUser getUserByEmail(String email){
 
         Optional<AppUser> appUser = repo.findByEmail(email);

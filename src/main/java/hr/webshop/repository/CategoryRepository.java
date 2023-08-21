@@ -1,4 +1,7 @@
 package hr.webshop.repository;
 
-public interface CategoryRepository {
+import hr.webshop.entity.Category;
+import org.springframework.data.jpa.repository.JpaRepository;
+
+public interface CategoryRepository extends JpaRepository<Category, Long> {
 }
