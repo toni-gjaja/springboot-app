@@ -13,7 +13,7 @@ public class AppUser {
 
     public AppUser(){
         createdAt = new Date();
-        role = "ROLE_ADMIN";
+        role = "ROLE_USER";
     }
 
     @Id

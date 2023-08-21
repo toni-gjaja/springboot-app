@@ -7,6 +7,7 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
@@ -33,16 +34,20 @@ public class CustomAuthenticationSuccessHandler implements AuthenticationSuccess
         AppUser appUser = service.getUserByEmail(userDetails.getUsername());
         String ipAddress = request.getLocalAddr();
 
+        System.out.println("User: " + appUser.getFirstname() + " " + appUser.getLastname() + " - authenticated: " + authentication.isAuthenticated());
+
         UserLog log = new UserLog(new Date(), ipAddress, appUser);
 
         service.saveUserLog(log);
 
+        SecurityContextHolder.getContext().setAuthentication(authentication);
+
         for (GrantedAuthority ga : userDetails.getAuthorities()){
-            if (ga.getAuthority().equals("USER")){
-                response.sendRedirect("/profile");
+            if (ga.getAuthority().equals("ROLE_ADMIN")){
+                response.sendRedirect("/admin/adminprofile");
             }
             else {
-                response.sendRedirect("/adminprofile");
+                response.sendRedirect("/profile");
             }
         }
 
