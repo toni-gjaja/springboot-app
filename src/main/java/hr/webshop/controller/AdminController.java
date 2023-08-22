@@ -3,14 +3,16 @@ package hr.webshop.controller;
 
 import hr.webshop.entity.AppUser;
 import hr.webshop.entity.Category;
+import hr.webshop.entity.Product;
 import hr.webshop.model.AdminProfileModel;
 import hr.webshop.service.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.Optional;
 
 @Controller
 @RequestMapping("/admin")
@@ -23,6 +25,8 @@ public class AdminController {
     private final ReceiptService receiptService;
     private final UserLogService userLogService;
 
+    AdminProfileModel adminProfileModel;
+
     @Autowired
     public AdminController(AppUserService appUserService, CategoryService categoryService, ProductService productService, ReceiptService receiptService, UserLogService userLogService) {
         this.appUserService = appUserService;
@@ -30,13 +34,8 @@ public class AdminController {
         this.productService = productService;
         this.receiptService = receiptService;
         this.userLogService = userLogService;
-    }
 
-
-    @GetMapping("/adminprofile")
-    public String getAdminProfile(Model model){
-
-        AdminProfileModel adminProfileModel = new AdminProfileModel(
+        adminProfileModel = new AdminProfileModel(
                 appUserService.getAllUsers(),
                 categoryService.getAllCategories(),
                 productService.getAllProducts(),
@@ -44,10 +43,33 @@ public class AdminController {
                 userLogService.getAllLogs()
         );
 
-        model.addAttribute("model", adminProfileModel);
+    }
 
+    @GetMapping("/adminprofile")
+    public String getAdminProfile(Model model){
+
+        model.addAttribute("model", adminProfileModel);
         return "adminprofile";
 
+    }
+
+    @PostMapping("/deleteproduct")
+    public String deleteProduct(@RequestParam Long id, Model model){
+        productService.removeProduct(id);
+        adminProfileModel.getProducts().removeIf(product -> product.getId().equals(id));
+        model.addAttribute("model", adminProfileModel);
+        return "adminprofile";
+    }
+
+    @GetMapping("/aboutproduct/{productId}")
+    public String getProductDetails(@PathVariable Long productId, Model model) {
+        Optional<Product> product = productService.getProductById(productId);
+        if (product.isEmpty()){
+            return "error";
+        }
+        Product modelProduct = product.get();
+        model.addAttribute("product", modelProduct);
+        return "product";
     }
 
 }

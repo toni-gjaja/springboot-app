@@ -6,9 +6,124 @@
 </head>
 <body>
 
+<style>
+
+    .hover-underline-animation {
+        cursor: pointer;
+        display: inline-block;
+        position: relative;
+        color:gray;
+    }
+
+    .hover-underline-animation:after {
+        content: '';
+        position: absolute;
+        width: 100%;
+        transform: scaleX(0);
+        height: 2px;
+        bottom: 0;
+        left: 0;
+        background-color: black;
+        transform-origin: bottom right;
+        transition: transform 0.25s ease-out;
+    }
+
+    .hover-underline-animation:hover:after {
+        transform: scaleX(1);
+        transform-origin: bottom left;
+    }
+
+    h2{
+        padding-left: 20px;
+        padding-right: 20px;
+    }
+
+    .add-new-btn{
+        border: 1px solid white;
+        border-radius: 10px;
+        transition: 0.3s;
+        cursor: pointer;
+        margin-left: 10px;
+        margin-right: 10px;
+
+    }
+
+    .add-new-btn:hover{
+        border: 1px solid black;
+        color: white;
+        background-color: black;
+    }
+
+    .table-holder{
+        width: 80%;
+    }
+
+
+
+</style>
+
 <div th:replace="fragments/usernavbar"></div>
 
+<div class="d-flex justify-content-center mb-5">
 
+    <button class="add-new-btn"> + add new product </button>
+    <button class="add-new-btn"> + add new category </button>
+
+</div>
+
+<div  class="d-flex justify-content-center">
+
+    <h2 class="hover-underline-animation tab-btn">Products</h2>
+
+    <h2 class="hover-underline-animation tab-btn">Categories</h2>
+
+    <h2 class="hover-underline-animation tab-btn">Users</h2>
+
+    <h2 class="hover-underline-animation tab-btn">User logs</h2>
+
+    <h2 class="hover-underline-animation tab-btn">Receipts</h2>
+
+</div>
+
+<div class="d-flex justify-content-center mt-3 tab-content active">
+
+    <div class="table-holder">
+
+        <table class="table table-dark">
+            <thead>
+            <tr>
+                <th scope="col">Id</th>
+                <th scope="col">Name</th>
+                <th scope="col">Stock</th>
+                <th scope="col">Price</th>
+                <th scope="col">Category</th>
+            </tr>
+            </thead>
+            <tbody>
+
+            <tr th:each="item : ${model.getProducts()}">
+                <th scope="row" th:text="${item.getId()}"></th>
+                <td th:text="${item.getName()}"></td>
+                <td th:text="${item.getStock()}"></td>
+                <td th:text="${item.getPrice()}"></td>
+                <td th:text="${item.getCategory().getName()}"></td>
+                <td>
+                    <a class="btn btn-primary" th:href="@{/admin/aboutproduct/{productId}(productId=${item.getId()})}">i</a>
+                </td>
+                <td>
+                    <form th:action="@{/admin/deleteproduct}" method="post">
+                        <input type="hidden" name="id" th:value="${item.getId()}" />
+                        <button type="submit" class="btn btn-danger">X</button>
+                    </form>
+                </td>
+            </tr>
+
+            </tbody>
+        </table>
+
+    </div>
+
+</div>
 
 
 
