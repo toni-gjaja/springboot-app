@@ -2,7 +2,10 @@ package hr.webshop.controller;
 
 import hr.webshop.entity.AppUser;
 import hr.webshop.service.AppUserService;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -45,6 +48,16 @@ public class LoginController {
     public String getLoginPage(Model model){
         model.addAttribute("user", new AppUser());
         return "login";
+    }
+
+    @GetMapping("/logout")
+    public String logout(HttpServletRequest request){
+        SecurityContextHolder.clearContext();
+        HttpSession session = request.getSession();
+        if (session != null){
+            session.invalidate();
+        }
+        return "/login";
     }
 
 }

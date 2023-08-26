@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title th:text="${product.name}"></title>
+</head>
+<body>
+
+<style>
+
+    .main{
+        width: 100%;
+    }
+
+    .form-holder{
+        width: 30%;
+    }
+
+    .delete-btn{
+        text-decoration: none;
+        color: blue;
+        margin-bottom: 20px;
+        padding: 10px 20px 10px 20px;
+        border-radius: 10px;
+        border: 1px solid blue;
+        transition: 0.3s;
+    }
+
+    .delete-btn:hover{
+        color: ghostwhite;
+        background-color: yellowgreen;
+        border: 1px solid yellowgreen;
+        text-decoration: none;
+    }
+
+
+</style>
+
+<div th:replace="fragments/usernavbar"></div>
+
+<div class="d-flex justify-content-center main">
+
+    <div class="form-holder">
+
+        <form th:action="@{/admin/updateproduct}">
+
+            <div class="form-group">
+                <label for="id">Id</label>
+                <input name="id" class="form-control" id="id" readonly th:value="${product.id}">
+            </div>
+
+            <div class="form-group">
+                <label for="product-name">Name</label>
+                <input name="name" class="form-control" id="product-name" required th:value="${product.name}">
+            </div>
+
+            <div class="form-group">
+                <label for="stock">Stock</label>
+                <input type="number" name="stock" class="form-control" id="stock" required th:value="${product.stock}">
+            </div>
+
+            <div class="form-group">
+                <label for="price">Price</label>
+                <input type="number" name="price" class="form-control" id="price" required th:value="${product.price}">
+            </div>
+
+            <div class="d-flex justify-content-center">
+
+                <button type="submit" class="btn btn-warning">Update</button>
+
+                <a class="delete-btn" th:href="@{/admin/deleteproduct/{productId}(productId=${product.getId()})}">Delete</a>
+
+            </div>
+
+        </form>
+
+    </div>
+
+</div>
+
+</body>
+</html>

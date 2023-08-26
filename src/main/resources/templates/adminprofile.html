@@ -58,6 +58,13 @@
         width: 80%;
     }
 
+    .tab-content{
+        display: none;
+    }
+
+    .tab-active{
+        display: block;
+    }
 
 
 </style>
@@ -85,10 +92,8 @@
 
 </div>
 
-<div class="d-flex justify-content-center mt-3 tab-content active">
-
+<div class="d-flex justify-content-center mt-3 tab-content tab-active">
     <div class="table-holder">
-
         <table class="table table-dark">
             <thead>
             <tr>
@@ -100,7 +105,6 @@
             </tr>
             </thead>
             <tbody>
-
             <tr th:each="item : ${model.getProducts()}">
                 <th scope="row" th:text="${item.getId()}"></th>
                 <td th:text="${item.getName()}"></td>
@@ -110,19 +114,10 @@
                 <td>
                     <a class="btn btn-primary" th:href="@{/admin/aboutproduct/{productId}(productId=${item.getId()})}">i</a>
                 </td>
-                <td>
-                    <form th:action="@{/admin/deleteproduct}" method="post">
-                        <input type="hidden" name="id" th:value="${item.getId()}" />
-                        <button type="submit" class="btn btn-danger">X</button>
-                    </form>
-                </td>
             </tr>
-
             </tbody>
         </table>
-
     </div>
-
 </div>
 
 

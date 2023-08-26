@@ -1,8 +1,5 @@
 package hr.webshop.controller;
 
-
-import hr.webshop.entity.AppUser;
-import hr.webshop.entity.Category;
 import hr.webshop.entity.Product;
 import hr.webshop.model.AdminProfileModel;
 import hr.webshop.service.*;
@@ -53,11 +50,11 @@ public class AdminController {
 
     }
 
-    @PostMapping("/deleteproduct")
-    public String deleteProduct(@RequestParam Long id, Model model){
-        productService.removeProduct(id);
-        adminProfileModel.getProducts().removeIf(product -> product.getId().equals(id));
-        model.addAttribute("model", adminProfileModel);
+    @PostMapping("/deleteproduct/{productId}")
+    public String deleteProduct(@PathVariable Long productId){
+        productService.removeProduct(productId);
+        //adminProfileModel.getProducts().removeIf(product -> product.getId().equals(id));
+        //model.addAttribute("model", adminProfileModel);
         return "adminprofile";
     }
 
@@ -69,7 +66,14 @@ public class AdminController {
         }
         Product modelProduct = product.get();
         model.addAttribute("product", modelProduct);
-        return "product";
+        return "adminproduct";
+    }
+
+    @PostMapping("/updateproduct")
+    public String updateProduct(@ModelAttribute("product") Product product){
+
+        productService.saveProduct(product);
+        return "adminprofile";
     }
 
 }

@@ -24,4 +24,6 @@ public class ProductService {
     public Optional<Product> getProductById(Long id){ return repo.findById(id); }
 
     public void removeProduct(Long id){ repo.deleteById(id); }
+
+    public void saveProduct(Product product){ repo.save(product); }
 }

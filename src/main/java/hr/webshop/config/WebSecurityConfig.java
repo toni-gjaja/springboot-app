@@ -18,6 +18,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 import org.thymeleaf.extras.springsecurity5.dialect.SpringSecurityDialect;
 
+@SuppressWarnings("ALL")
 @Configuration
 @EnableWebSecurity
 @EnableMethodSecurity
@@ -38,8 +39,8 @@ public class WebSecurityConfig{
         http
                 .authorizeHttpRequests((requests) -> requests
                         .requestMatchers("/profile").hasRole("USER")
-                        .requestMatchers("/admin/*").hasRole("ADMIN")
-                        .requestMatchers("/**").permitAll()
+                        .requestMatchers("/admin/**").hasRole("ADMIN")
+                        .requestMatchers("/*").permitAll()
                 )
                 .formLogin((form) -> form
                         .loginPage("/login")
@@ -49,7 +50,14 @@ public class WebSecurityConfig{
                         .successHandler(new CustomAuthenticationSuccessHandler(appUserService, userDetailsService))
                         .permitAll()
                 )
-                .logout(LogoutConfigurer::permitAll);
+                .logout((logout) -> logout
+                                .logoutUrl("/logout")
+                                .logoutSuccessUrl("/login")
+                                .invalidateHttpSession(true)
+                                .clearAuthentication(true)
+                                .deleteCookies("JSESSIONID")
+                                .permitAll())
+                .exceptionHandling().accessDeniedPage("/login");
 
         return http.build();
     }
