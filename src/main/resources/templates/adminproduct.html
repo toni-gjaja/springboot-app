@@ -42,7 +42,7 @@
 
     <div class="form-holder">
 
-        <form th:action="@{/admin/updateproduct}">
+        <form th:action="@{/admin/updateproduct}" method="post">
 
             <div class="form-group">
                 <label for="id">Id</label>
@@ -64,14 +64,19 @@
                 <input type="number" name="price" class="form-control" id="price" required th:value="${product.price}">
             </div>
 
+            <input type="hidden" name="category.id" th:value="${product.category.id}" />
+
             <div class="d-flex justify-content-center">
 
                 <button type="submit" class="btn btn-warning">Update</button>
 
-                <a class="delete-btn" th:href="@{/admin/deleteproduct/{productId}(productId=${product.getId()})}">Delete</a>
-
             </div>
 
+        </form>
+
+        <form th:action="@{/admin/deleteproduct}" method="post">
+            <input type="hidden" name="id" th:value="${product.getId()}" />
+            <button type="submit" class="delete-btn">X</button>
         </form>
 
     </div>

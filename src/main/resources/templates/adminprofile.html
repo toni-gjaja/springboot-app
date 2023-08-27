@@ -66,6 +66,13 @@
         display: block;
     }
 
+    #sort-btn{
+        cursor: pointer;
+    }
+
+    #sort-btn:hover{
+        color: deepskyblue;
+    }
 
 </style>
 
@@ -94,10 +101,12 @@
 
 <div class="d-flex justify-content-center mt-3 tab-content tab-active">
     <div class="table-holder">
-        <table class="table table-dark">
+        <table class="table table-dark" id="productTable">
             <thead>
             <tr>
-                <th scope="col">Id</th>
+                <th scope="col">
+                    <a id="sort-btn" th:onclick="'javascript:sortById();'">Id</a>
+                </th>
                 <th scope="col">Name</th>
                 <th scope="col">Stock</th>
                 <th scope="col">Price</th>
@@ -119,6 +128,35 @@
         </table>
     </div>
 </div>
+
+<script th:inline="javascript">
+    let ascending = true;
+
+    function sortById() {
+        const tableBody = document.querySelector('#productTable tbody');
+        const rows = Array.from(tableBody.querySelectorAll('tr'));
+
+        rows.sort((a, b) => {
+            const idA = parseInt(a.querySelector('th').textContent);
+            const idB = parseInt(b.querySelector('th').textContent);
+
+            if (ascending) {
+                return idA - idB;
+            } else {
+                return idB - idA;
+            }
+        });
+
+        ascending = !ascending;
+
+        rows.forEach(row => tableBody.appendChild(row));
+
+        const sortBtn = document.querySelector('#sort-btn');
+        sortBtn.textContent = `Id - ${ascending ? 'Desc' : 'Asc'}`;
+    }
+</script>
+
+
 
 
 
