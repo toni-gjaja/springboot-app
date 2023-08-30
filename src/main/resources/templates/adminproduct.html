@@ -74,10 +74,14 @@
 
         </form>
 
-        <form th:action="@{/admin/deleteproduct}" method="post">
-            <input type="hidden" name="id" th:value="${product.getId()}" />
-            <button type="submit" class="delete-btn">X</button>
-        </form>
+        <div class="d-flex justify-content-center mt-3">
+
+            <form th:action="@{/admin/deleteproduct}" method="post">
+                <input type="hidden" name="id" th:value="${product.getId()}" />
+                <button type="submit" class="delete-btn">Delete</button>
+            </form>
+
+        </div>
 
     </div>
 

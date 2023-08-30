@@ -16,5 +16,9 @@ public class AdminProfileModel {
     List<Receipt> receipts;
     List<UserLog> userLogs;
 
-
+    public long getProductCountForCategory(String categoryName){
+        return products.stream()
+                .filter(product -> categoryName.equals(product.getCategory().getName()))
+                .count();
+    }
 }

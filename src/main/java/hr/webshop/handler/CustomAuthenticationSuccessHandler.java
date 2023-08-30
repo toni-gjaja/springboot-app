@@ -40,8 +40,6 @@ public class CustomAuthenticationSuccessHandler implements AuthenticationSuccess
 
         service.saveUserLog(log);
 
-        SecurityContextHolder.getContext().setAuthentication(authentication);
-
         for (GrantedAuthority ga : userDetails.getAuthorities()){
             if (ga.getAuthority().equals("ROLE_ADMIN")){
                 response.sendRedirect("/admin/adminprofile");

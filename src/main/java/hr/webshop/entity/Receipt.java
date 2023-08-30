@@ -35,8 +35,4 @@ public class Receipt {
             inverseJoinColumns = @JoinColumn(name = "productid")
     )
     private List<Product> products;
-
-
-
-
 }

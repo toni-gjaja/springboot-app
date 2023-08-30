@@ -11,14 +11,11 @@ import org.springframework.security.config.annotation.authentication.builders.Au
 import org.springframework.security.config.annotation.method.configuration.EnableMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
-import org.springframework.security.config.annotation.web.configurers.LogoutConfigurer;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
-import org.thymeleaf.extras.springsecurity5.dialect.SpringSecurityDialect;
 
-@SuppressWarnings("ALL")
 @Configuration
 @EnableWebSecurity
 @EnableMethodSecurity
@@ -39,8 +36,10 @@ public class WebSecurityConfig{
         http
                 .authorizeHttpRequests((requests) -> requests
                         .requestMatchers("/profile").hasRole("USER")
+                        .requestMatchers("/product/*").permitAll()
                         .requestMatchers("/admin/**").hasRole("ADMIN")
                         .requestMatchers("/*").permitAll()
+
                 )
                 .formLogin((form) -> form
                         .loginPage("/login")
@@ -51,13 +50,12 @@ public class WebSecurityConfig{
                         .permitAll()
                 )
                 .logout((logout) -> logout
-                                .logoutUrl("/logout")
+                        .logoutUrl("/userlogout")
                                 .logoutSuccessUrl("/login")
                                 .invalidateHttpSession(true)
                                 .clearAuthentication(true)
                                 .deleteCookies("JSESSIONID")
-                                .permitAll())
-                .exceptionHandling().accessDeniedPage("/login");
+                                .permitAll());
 
         return http.build();
     }
@@ -69,8 +67,10 @@ public class WebSecurityConfig{
     }
 
 //    @Bean
-//    public SpringSecurityDialect securityDialect(){
-//        return new SpringSecurityDialect();
+//    public SpringTemplateEngine templateEngine(){
+//        SpringTemplateEngine templateEngine = new SpringTemplateEngine();
+//        templateEngine.addDialect(new SpringSecurityDialect());
+//        return templateEngine;
 //    }
 
 }

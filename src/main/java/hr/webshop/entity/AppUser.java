@@ -33,4 +33,8 @@ public class AppUser {
     @Column(name = "role")
     private String role;
 
+    @Override
+    public String toString() {
+        return firstname + " " + lastname;
+    }
 }
