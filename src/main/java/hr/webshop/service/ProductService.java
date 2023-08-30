@@ -5,6 +5,7 @@ import hr.webshop.repository.ProductRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
 
@@ -18,12 +19,20 @@ public class ProductService {
     }
 
     public List<Product> getAllProducts() {
-        return repo.findAll();
+        return repo.findByDeletedAtIsNull();
     }
 
     public Optional<Product> getProductById(Long id){ return repo.findById(id); }
 
-    public void removeProduct(Long id){ repo.deleteById(id); }
+    public void removeProduct(Long id){
+        Optional<Product> optionalProduct = getProductById(id);
+        if (optionalProduct.isEmpty()){
+            return;
+        }
+        Product product = optionalProduct.get();
+        product.setDeletedAt(LocalDate.now());
+        repo.save(product);
+    }
 
     public void saveProduct(Product product){ repo.save(product); }
 }

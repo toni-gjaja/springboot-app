@@ -58,11 +58,11 @@
         width: 80%;
     }
 
-    #sort-btn{
+    #sort-btn-product{
         cursor: pointer;
     }
 
-    #sort-btn:hover{
+    #sort-btn-product:hover{
         color: deepskyblue;
     }
 
@@ -106,7 +106,7 @@
                 <thead>
                 <tr>
                     <th scope="col">
-                        <a id="sort-btn" th:onclick="'javascript:sortById();'">Id</a>
+                        <a id="sort-btn-product" th:onclick="'javascript:sortProductsById();'">Id</a>
                     </th>
                     <th scope="col">Name</th>
                     <th scope="col">Stock</th>
@@ -186,7 +186,7 @@
 <div class="tab-content">
     <div class="d-flex justify-content-center">
         <div class="table-holder">
-            <table class="table table-dark">
+            <table class="table table-dark" id="logTable">
                 <thead>
                 <tr>
                     <th scope="col">Id</th>
@@ -210,6 +210,38 @@
     </div>
 </div>
 
+<div class="tab-content">
+    <div class="d-flex justify-content-center">
+        <div class="table-holder">
+            <table class="table table-dark">
+                <thead>
+                <tr>
+                    <th scope="col">Id</th>
+                    <th scope="col">Created at</th>
+                    <th scope="col">Amount</th>
+                    <th scope="col">Payment</th>
+                    <th scope="col">User id</th>
+                    <th scope="col">User full name</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr th:each="item : ${model.getReceipts()}">
+                    <td th:text="${item.getId()}"></td>
+                    <td th:text="${item.getCreatedAt()}"></td>
+                    <td th:text="${item.getAmount()}"></td>
+                    <td th:text="${item.getPayment()}"></td>
+                    <td th:text="${item.getAppUser().getId()}"></td>
+                    <td th:text="${item.getAppUser().toString()}"></td>
+                    <td>
+                        <a class="btn btn-primary" th:href="@{/admin/aboutreceipt/{receiptId}(receiptId=${item.getId()})}">i</a>
+                    </td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
 <script>
     const tabButtons = document.querySelectorAll(".tab-btn");
     const tabContents = document.querySelectorAll(".tab-content");
@@ -222,11 +254,10 @@
     });
 </script>
 
-
 <script th:inline="javascript">
     let ascending = true;
 
-    function sortById() {
+    function sortProductsById() {
         const tableBody = document.querySelector('#productTable tbody');
         const rows = Array.from(tableBody.querySelectorAll('tr'));
 

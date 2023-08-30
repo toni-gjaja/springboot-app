@@ -4,6 +4,8 @@ import jakarta.persistence.*;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.time.LocalDate;
+
 @Entity
 @Data
 @NoArgsConstructor
@@ -26,6 +28,9 @@ public class Product {
     @ManyToOne
     @JoinColumn(name = "categoryid")
     private Category category;
+
+    @Column(name = "deletedat")
+    private LocalDate deletedAt;
 
     public Product(String name, int stock, double price, Category category) {
         this.name = name;

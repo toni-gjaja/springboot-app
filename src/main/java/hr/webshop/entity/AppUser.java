@@ -3,6 +3,8 @@ package hr.webshop.entity;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
+
+import java.time.LocalDate;
 import java.util.Date;
 
 @Entity
@@ -12,7 +14,7 @@ import java.util.Date;
 public class AppUser {
 
     public AppUser(){
-        createdAt = new Date();
+        createdAt = LocalDate.now();
         role = "ROLE_USER";
     }
 
@@ -29,7 +31,7 @@ public class AppUser {
     @Column(name = "password")
     private String password;
     @Column(name = "createdat")
-    private Date createdAt;
+    private LocalDate createdAt;
     @Column(name = "role")
     private String role;
 

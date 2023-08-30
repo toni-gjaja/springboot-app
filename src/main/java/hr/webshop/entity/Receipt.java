@@ -3,6 +3,7 @@ package hr.webshop.entity;
 import jakarta.persistence.*;
 import lombok.Data;
 
+import java.sql.Timestamp;
 import java.time.LocalDate;
 import java.util.List;
 
@@ -35,4 +36,5 @@ public class Receipt {
             inverseJoinColumns = @JoinColumn(name = "productid")
     )
     private List<Product> products;
+
 }

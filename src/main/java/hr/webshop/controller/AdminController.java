@@ -2,6 +2,7 @@ package hr.webshop.controller;
 
 import hr.webshop.entity.Category;
 import hr.webshop.entity.Product;
+import hr.webshop.entity.Receipt;
 import hr.webshop.service.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -65,4 +66,15 @@ public class AdminController {
         return "adminprofile";
     }
 
+    @GetMapping("/aboutreceipt/{receiptId}")
+    public String getReceiptDetails(@PathVariable Long receiptId, Model model){
+
+        Optional<Receipt> optionalReceipt = adminService.getReceiptService().getReceiptById(receiptId);
+        if (optionalReceipt.isEmpty()){
+            return "error";
+        }
+        Receipt receipt = optionalReceipt.get();
+        model.addAttribute("receipt", receipt);
+        return "adminreceipt";
+    }
 }

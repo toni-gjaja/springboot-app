@@ -13,6 +13,7 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
 
 import java.io.IOException;
+import java.time.LocalDate;
 import java.util.Date;
 
 public class CustomAuthenticationSuccessHandler implements AuthenticationSuccessHandler {
@@ -36,7 +37,7 @@ public class CustomAuthenticationSuccessHandler implements AuthenticationSuccess
 
         System.out.println("User: " + appUser.getFirstname() + " " + appUser.getLastname() + " - authenticated: " + authentication.isAuthenticated());
 
-        UserLog log = new UserLog(new Date(), ipAddress, appUser);
+        UserLog log = new UserLog(LocalDate.now(), ipAddress, appUser);
 
         service.saveUserLog(log);
 

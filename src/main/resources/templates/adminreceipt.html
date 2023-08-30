@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title th:text="'Receipt nr. ' + ${receipt.getId()}"></title>
+</head>
+<body>
+
+<style>
+
+    .parent{
+        width: 100%;
+        margin: unset;
+        display: flex;
+        justify-content: center;
+    }
+
+    .info{
+        border-right: 2px solid gray;
+        display: flex;
+        padding: 2%;
+    }
+
+    .table-holder{
+        width: 80%;
+    }
+
+</style>
+
+<div th:replace="fragments/usernavbar"></div>
+
+<div class="parent">
+
+    <div class="info">
+
+        <h3>Id:</h3>
+        <h3 th:text="${receipt.getId()}"></h3>
+
+    </div>
+
+    <div class="info">
+
+        <h3>Created at:</h3>
+        <h3 th:text="${receipt.getCreatedAt()}"></h3>
+
+    </div>
+
+    <div class="info">
+
+        <h3>Amount:</h3>
+        <h3 th:text="${receipt.getAmount()}"></h3>
+
+    </div>
+
+    <div class="info">
+
+        <h3>Payment:</h3>
+        <h3 th:text="${receipt.getPayment()}"></h3>
+
+    </div>
+
+    <div class="info">
+
+        <h3>User:</h3>
+        <h3 th:text="${receipt.getAppUser().toString()}"></h3>
+
+    </div>
+
+</div>
+
+<div class="tab-content tab-active">
+    <div class="d-flex justify-content-center mt-3">
+        <div class="table-holder">
+            <table class="table table-dark" id="productTable">
+                <thead>
+                <tr>
+                    <th scope="col">Id</th>
+                    <th scope="col">Name</th>
+                    <th scope="col">Stock</th>
+                    <th scope="col">Price</th>
+                    <th scope="col">Category</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr th:each="item : ${receipt.getProducts()}">
+                    <th scope="row" th:text="${item.getId()}"></th>
+                    <td th:text="${item.getName()}"></td>
+                    <td th:text="${item.getStock()}"></td>
+                    <td th:text="${item.getPrice()}"></td>
+                    <td th:text="${item.getCategory().getName()}"></td>
+                    <td>
+                        <a class="btn btn-primary" th:href="@{/admin/aboutproduct/{productId}(productId=${item.getId()})}">i</a>
+                    </td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+
+
+</body>
+</html>

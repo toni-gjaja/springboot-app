@@ -4,6 +4,7 @@ import jakarta.persistence.*;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.time.LocalDate;
 import java.util.Date;
 
 @Entity
@@ -12,7 +13,7 @@ import java.util.Date;
 @Table(name = "userlog")
 public class UserLog {
 
-    public UserLog(Date createdAt, String ipAddress, AppUser appUser){
+    public UserLog(LocalDate createdAt, String ipAddress, AppUser appUser){
         this.createdAt = createdAt;
         this.ipAddress = ipAddress;
         this.appUser = appUser;
@@ -23,7 +24,7 @@ public class UserLog {
     private Long id;
 
     @Column(name = "createdat")
-    private Date createdAt;
+    private LocalDate createdAt;
 
     @Column(name = "ipaddress")
     private String ipAddress;
