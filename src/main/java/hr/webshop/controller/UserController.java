@@ -10,7 +10,6 @@ public class UserController {
 
     @GetMapping("/profile")
     public String getLoginPage(){
-
         return "profile";
     }
 

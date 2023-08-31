@@ -23,4 +23,6 @@ public class CategoryService {
     }
 
     public Optional<Category> getCategoryById(Long id) { return repo.findById(id); }
+
+    public void saveCategory(Category category) { repo.save(category); }
 }

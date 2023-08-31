@@ -74,16 +74,132 @@
         display: block !important;
     }
 
+    .modalDialog{
+        position: fixed;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%) scale(0);
+        transition: 200ms ease-in-out;
+        width: 25%;
+        border: 1px solid gray;
+        border-radius: 10px;
+        padding: 20px;
+        z-index: 10;
+        background-color: white;
+
+    }
+
+    .modalDialog.active{
+        transform: translate(-50%, -50%) scale(1);
+
+    }
+
+    .modalHeader{
+        padding: 10px 15px;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        font-size: 2rem;
+    }
+
+    .closeButton{
+        border: none;
+        background: none;
+        cursor: pointer;
+        font-weight: bold;
+    }
+
+    #overlay{
+        position: fixed;
+        opacity: 0;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        transition: 200ms ease-in-out;
+        background-color: rgba(0, 0, 0, .5);
+        pointer-events: none;
+    }
+
+    #overlay.active{
+        opacity: 1;
+        pointer-events: all;
+    }
+
+
+
 </style>
 
 <div th:replace="fragments/usernavbar"></div>
 
 <div class="d-flex justify-content-center mb-5">
 
-    <button class="add-new-btn"> + add new product </button>
-    <button class="add-new-btn"> + add new category </button>
+    <button th:onclick="'javascript:initProductModal();'" class="add-new-btn"> + add new product </button>
+    <button th:onclick="'javascript:initCategoryModal();'" class="add-new-btn"> + add new category </button>
 
 </div>
+
+<div class="modalDialog" id="modalProduct">
+    <div class="modalHeader">
+        <div class="title">Add new product</div>
+        <button data-close-button class="closeButton">&times;</button>
+    </div>
+    <div class="modalBody">
+
+        <form th:action="@{/admin/createproduct}" method="post">
+
+            <div class="form-group">
+                <label for="product-name">Name: </label>
+                <input name="name" class="form-control" id="product-name" required>
+            </div>
+
+            <div class="form-group">
+                <label for="stock">Stock: </label>
+                <input type="number" name="stock" class="form-control" id="stock" required>
+            </div>
+
+            <div class="form-group">
+                <label for="price">Price: </label>
+                <input type="number" name="price" class="form-control" id="price" required>
+            </div>
+
+            <div class="form-group">
+                <label for="category">Category: </label>
+                <select id="category" name="category" required>
+                    <option th:each="category : ${model.getCategories()}" th:value="${category.id}" th:text="${category.name}"></option>
+                </select>
+            </div>
+
+            <div class="d-flex justify-content-center">
+                <button type="submit" class="btn btn-warning">Create</button>
+            </div>
+
+        </form>
+    </div>
+</div>
+
+<div class="modalDialog" id="modalCategory">
+    <div class="modalHeader">
+        <div class="title">Add new category</div>
+        <button class="closeButton">&times;</button>
+    </div>
+    <div class="modalBody">
+
+        <form th:action="@{/admin/createcategory}" method="post">
+            <div class="form-group">
+                <label for="category-name">Name: </label>
+                <input name="name" class="form-control" id="category-name" required>
+            </div>
+            <div class="d-flex justify-content-center">
+                <button type="submit" class="btn btn-warning">Create</button>
+            </div>
+        </form>
+
+    </div>
+
+</div>
+
+<div id="overlay"></div>
 
 <div  class="d-flex justify-content-center">
 
@@ -279,6 +395,50 @@
         const sortBtn = document.querySelector('#sort-btn');
         sortBtn.textContent = `Id - ${ascending ? 'Desc' : 'Asc'}`;
     }
+</script>
+
+<script>
+    const overlay = document.getElementById('overlay')
+    const closeBtn = document.querySelectorAll(".closeButton")
+
+    function initProductModal(){
+        const modal = document.getElementById('modalProduct')
+        openModal(modal)
+    }
+
+    function initCategoryModal(){
+        const modal = document.getElementById('modalCategory')
+        openModal(modal)
+    }
+
+    overlay.addEventListener('click', () => {
+        const modals = document.querySelectorAll('.modalDialog.active')
+        modals.forEach(modal => {
+            closeModal(modal)
+        })
+    })
+
+    closeBtn.forEach(button => {
+        button.onclick = function() {
+            const modals = document.querySelectorAll('.modalDialog.active')
+            modals.forEach(modal => {
+                closeModal(modal)
+            })
+        };
+    });
+
+    function openModal(modal) {
+        if (modal == null) return
+        modal.classList.add('active')
+        overlay.classList.add('active')
+    }
+
+    function closeModal(modal) {
+        if (modal == null) return
+        modal.classList.remove('active')
+        overlay.classList.remove('active')
+    }
+
 </script>
 
 </body>

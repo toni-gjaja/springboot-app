@@ -53,17 +53,11 @@ public class AdminController {
     @PostMapping("/updateproduct")
     public String updateProduct(@ModelAttribute Product product, Model model) {
 
-        Optional<Category> category = adminService.getCategoryService().getCategoryById(product.getCategory().getId());
-        if (category.isEmpty()) {
-            return "error";
+        if (createOrUpdateProduct(product)){
+            model.addAttribute("model", adminService.getAllData());
+            return "adminprofile";
         }
-        Category updatedProductCategory = category.get();
-        product.setCategory(updatedProductCategory);
-
-        adminService.getProductService().saveProduct(product);
-
-        model.addAttribute("model", adminService.getAllData());
-        return "adminprofile";
+        return "error";
     }
 
     @GetMapping("/aboutreceipt/{receiptId}")
@@ -77,4 +71,34 @@ public class AdminController {
         model.addAttribute("receipt", receipt);
         return "adminreceipt";
     }
+
+    @PostMapping("/createproduct")
+    public String createProduct(@ModelAttribute Product product, Model model){
+
+        if (createOrUpdateProduct(product)){
+            model.addAttribute("model", adminService.getAllData());
+            return "adminprofile";
+        }
+        return "error";
+    }
+
+    private boolean createOrUpdateProduct(Product product) {
+
+        Optional<Category> category = adminService.getCategoryService().getCategoryById(product.getCategory().getId());
+        if (category.isEmpty()) {
+            return false;
+        }
+        Category updatedProductCategory = category.get();
+        product.setCategory(updatedProductCategory);
+        adminService.getProductService().saveProduct(product);
+        return true;
+    }
+
+    @PostMapping("/createcategory")
+    public String createCategory(@ModelAttribute Category category, Model model){
+        adminService.getCategoryService().saveCategory(category);
+        model.addAttribute("model", adminService.getAllData());
+        return "adminprofile";
+    }
+
 }
