@@ -329,7 +329,7 @@
 <div class="tab-content">
     <div class="d-flex justify-content-center">
         <div class="table-holder">
-            <table class="table table-dark">
+            <table class="table table-dark" id="receiptTable">
                 <thead>
                 <tr>
                     <th scope="col">Id</th>
@@ -366,11 +366,22 @@
         button.addEventListener("click", () => {
             tabContents.forEach(content => content.classList.remove("tab-active"));
             tabContents[index].classList.add("tab-active");
+            if (index === 4) {
+                document.getElementById("search-input").style.display = "block";
+                document.getElementById("dateFrom").style.display = "block";
+                document.getElementById("dateTo").style.display = "block";
+                document.getElementById("filterBtn").style.display = "block";
+            } else {
+                document.getElementById("search-input").style.display = "none";
+                document.getElementById("dateFrom").style.display = "none";
+                document.getElementById("dateTo").style.display = "none";
+                document.getElementById("filterBtn").style.display = "none";
+            }
         });
     });
 </script>
 
-<script th:inline="javascript">
+<script>
     let ascending = true;
 
     function sortProductsById() {
@@ -437,6 +448,67 @@
         if (modal == null) return
         modal.classList.remove('active')
         overlay.classList.remove('active')
+    }
+</script>
+
+<script>
+
+    let searchInput = document.getElementById("search-input");
+
+    const rows = document.querySelectorAll("#receiptTable tbody tr");
+
+    searchInput.addEventListener("input", () => {
+        const searchTerm = searchInput.value.toLowerCase();
+
+        rows.forEach(row => {
+            const productName = row.querySelector("td:nth-child(6)").textContent.toLowerCase();
+
+            if (productName.includes(searchTerm) || searchTerm === "") {
+                row.style.display = "table-row";
+            } else {
+                row.style.display = "none";
+            }
+        });
+    });
+
+    let filterActive = false;
+    const filterButton = document.getElementById("filterBtn");
+
+    function filter(){
+
+        if (filterActive){
+            filterButton.textContent = "Search";
+            removeFilter();
+        }
+        else{
+            filterByDate()
+            filterButton.textContent = "Remove filter";
+
+        }
+    }
+
+    function filterByDate(){
+        const dateFrom = new Date(document.getElementById("dateFrom").value);
+        const dateTo = new Date(document.getElementById("dateTo").value);
+
+        rows.forEach(row => {
+            const createdAt = new Date(row.querySelector("td:nth-child(2)").textContent);
+            if (createdAt >= dateFrom && createdAt <= dateTo) {
+                row.style.display = "table-row";
+            } else {
+                row.style.display = "none";
+            }
+        });
+
+        filterActive = true;
+    }
+
+    function removeFilter() {
+        rows.forEach(row => {
+            row.style.display = "table-row";
+        });
+        searchInput = ""
+        filterActive = false;
     }
 
 </script>

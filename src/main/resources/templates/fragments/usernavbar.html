@@ -41,6 +41,14 @@
     text-decoration: none;
   }
 
+  .date-input{
+    width: 10%;
+    margin-left: 10px;
+    margin-right: 10px;
+  }
+
+
+
 </style>
 
 <nav class="navbar navbar-expand-lg navbar-dark bg-dark mb-5" data-aos="fade-down">
@@ -61,15 +69,22 @@
         <a class="nav-link ml-2 mr-2" href="/login">Login</a>
       </li>
       <li class="nav-item active">
-        <a class="nav-link ml-2 mr-2" href="/profile" sec:authorize="hasRole('ROLE_USER')">User profile</a>
+        <a class="nav-link ml-2 mr-2" href="/profile" sec:authorize="hasRole('USER')">User profile</a>
       </li>
       <li class="nav-item active">
-        <a class="nav-link ml-2 mr-2" href="/admin/adminprofile" sec:authorize="hasRole('ROLE_ADMIN')">Admin profile</a>
+        <a class="nav-link ml-2 mr-2" href="/admin/adminprofile" sec:authorize="hasRole('ADMIN')">Admin profile</a>
       </li>
       <li class="nav-item active">
         <a class="nav-link ml-2 mr-2" href="/userlogout" sec:authorize="isAuthenticated()">Logout</a>
       </li>
     </ul>
+    <form class="form-inline my-2 my-lg-0">
+      <input style="display: none"  id="search-input" class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search">
+    </form>
+    <input style="display: none" type="date" class="form-control date-input" id="dateFrom" placeholder="Date from">
+    <input style="display: none" type="date" class="form-control date-input" id="dateTo"  placeholder="Date to">
+    <button style="display: none" type="button" class="btn btn-success" th:onclick="'javascript:filter();'" id="filterBtn">Search</button>
+
   </div>
 </nav>
 <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
