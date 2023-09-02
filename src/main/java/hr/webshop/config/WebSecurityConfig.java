@@ -15,12 +15,13 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
+import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
 @Configuration
 @EnableWebSecurity
 @EnableMethodSecurity
 @AllArgsConstructor
-public class WebSecurityConfig{
+public class WebSecurityConfig implements WebMvcConfigurer {
 
     private UserDetailsService userDetailsService;
 
@@ -39,6 +40,7 @@ public class WebSecurityConfig{
                         .requestMatchers("/product/*").permitAll()
                         .requestMatchers("/admin/**").hasRole("ADMIN")
                         .requestMatchers("/*").permitAll()
+                        .requestMatchers("/static/**").permitAll()
 
                 )
                 .formLogin((form) -> form
@@ -66,7 +68,15 @@ public class WebSecurityConfig{
                 .passwordEncoder(passwordEncoder());
     }
 
-//    @Bean
+//    @Override
+//    public void addResourceHandlers(ResourceHandlerRegistry registry) {
+//        registry.addResourceHandler("/js/**")
+//                .addResourceLocations("classpath:/static/js/")
+//                .setCachePeriod(0)  // Disable caching for development
+//                .resourceChain(false);
+//    }
+
+    //    @Bean
 //    public SpringTemplateEngine templateEngine(){
 //        SpringTemplateEngine templateEngine = new SpringTemplateEngine();
 //        templateEngine.addDialect(new SpringSecurityDialect());
