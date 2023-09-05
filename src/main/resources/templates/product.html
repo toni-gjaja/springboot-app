@@ -22,9 +22,17 @@
         border-radius: 20px;
         box-shadow: rgba(0, 0, 0, 0.16) 0px 3px 6px, rgba(0, 0, 0, 0.23) 0px 3px 6px;
         margin-top: 200px;
+        background: gainsboro;
         text-align: center;
 
+    }
 
+    #quantity{
+        width: 10%;
+    }
+
+    .form-holder{
+        margin-bottom: 30px;
     }
 
 </style>
@@ -49,16 +57,20 @@
             <p>Category: <span th:text="${product.category.name}"></span></p>
         </div>
 
+        <div class="form-holder">
+            <form th:action="@{/additem}" method="post" class="d-flex justify-content-center">
+
+                <input type="number" name="quantity" class="form-control" id="quantity" value="1" min="1" th:max="${product.stock}">
+                <input type="hidden" name="productId" th:value="${product.id}">
+
+                <button type="submit" class="btn btn-success mx-3">Add to cart</button>
+
+            </form>
+        </div>
+
     </div>
 
-
-
-
 </div>
-
-
-
-
 
 </body>
 </html>

@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Checkout</title>
+</head>
+<body>
+
+<style>
+
+    .parent{
+        width: 100%;
+    }
+
+    .checkout-card{
+        width: 50%;
+        margin-top: 10%;
+        border-radius: 20px;
+        background: gainsboro;
+        box-shadow: rgba(0, 0, 0, 0.16) 0px 3px 6px, rgba(0, 0, 0, 0.23) 0px 3px 6px;
+    }
+
+    .general{
+        width: 50%;
+    }
+
+    .billing{
+        width: 50%;
+    }
+
+</style>
+
+<div th:replace="fragments/usernavbar"></div>
+
+<div class="parent d-flex justify-content-center">
+
+    <div class="checkout-card d-flex justify-content-center">
+
+        <div class="general">
+
+            <div class="mx-5 my-3">
+                <div class="d-flex justify-content-center mb-3">
+                    <h3>General</h3>
+                </div>
+
+                <div class="d-flex justify-content-between my-3">
+                    <h4>First name:</h4>
+                    <h4 th:text="${user.getFirstname()}"></h4>
+                </div>
+
+                <div class="d-flex justify-content-between my-3">
+                    <h4>Last name:</h4>
+                    <h4 th:text="${user.getLastname()}"></h4>
+                </div>
+
+                <div class="d-flex justify-content-between my-3">
+                    <h4>Email:</h4>
+                    <h4 th:text="${user.getEmail()}"></h4>
+                </div>
+
+                <div class="d-flex justify-content-between my-3">
+                    <h4>Receipt amount:</h4>
+                    <h4 th:text="${cart.getTotalPrice()}"></h4>
+                </div>
+            </div>
+        </div>
+
+        <div class="billing">
+
+            <div class="mx-5 my-3">
+                <div class="d-flex justify-content-center mb-3">
+                    <h3>Billing</h3>
+                </div>
+
+                <form method="post" th:action="@{/order}">
+
+                    <div class="form-group">
+                        <label for="address">Address</label>
+                        <input name="address" class="form-control" id="address" placeholder="Address" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="payment">Payment</label>
+                        <select id="payment" name="payment" class="mx-3" required>
+                            <option th:value="CASH" th:text="CASH"></option>
+                            <option th:value="CARD" th:text="CARD"></option>
+                        </select>
+                    </div>
+
+                    <div class="d-flex justify-content-center">
+                        <button type="submit" class="btn btn-primary">Order</button>
+                    </div>
+
+                </form>
+            </div>
+
+        </div>
+
+    </div>
+</div>
+
+</body>
+</html>

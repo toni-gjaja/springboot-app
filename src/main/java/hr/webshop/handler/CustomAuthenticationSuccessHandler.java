@@ -5,6 +5,7 @@ import hr.webshop.entity.UserLog;
 import hr.webshop.service.AppUserService;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import jakarta.websocket.Session;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -40,6 +41,8 @@ public class CustomAuthenticationSuccessHandler implements AuthenticationSuccess
         UserLog log = new UserLog(LocalDate.now(), ipAddress, appUser);
 
         service.saveUserLog(log);
+
+        request.getSession().setAttribute("user", appUser);
 
         for (GrantedAuthority ga : userDetails.getAuthorities()){
             if (ga.getAuthority().equals("ROLE_ADMIN")){

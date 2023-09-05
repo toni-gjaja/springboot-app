@@ -22,4 +22,6 @@ public class ReceiptService {
 
     public Optional<Receipt> getReceiptById(Long id){ return repo.findById(id);}
 
+    public void saveReceipt(Receipt receipt){ repo.save(receipt); }
+
 }

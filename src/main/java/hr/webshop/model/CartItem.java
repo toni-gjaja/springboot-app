@@ -1,19 +1,29 @@
 package hr.webshop.model;
 
 import hr.webshop.entity.Product;
+import lombok.Data;
 
+import java.text.DecimalFormat;
+
+@Data
 public class CartItem {
 
-    Product product;
+    private Product product;
 
-    int quantity;
+    private int quantity;
 
-    double amount;
+    private double amount;
 
     public CartItem(Product product, int quantity){
         this.product = product;
         this.quantity = quantity;
         amount = product.getPrice() * quantity;
     }
+
+    public String getFormattedAmount(){
+        DecimalFormat df = new DecimalFormat("#.##");
+        return df.format(amount);
+    }
+
 
 }

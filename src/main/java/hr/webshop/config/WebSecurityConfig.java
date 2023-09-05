@@ -36,12 +36,10 @@ public class WebSecurityConfig implements WebMvcConfigurer {
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
         http
                 .authorizeHttpRequests((requests) -> requests
-                        .requestMatchers("/profile").hasRole("USER")
+                        .requestMatchers("/profile","/checkout","/receipt").hasRole("USER")
                         .requestMatchers("/product/*").permitAll()
                         .requestMatchers("/admin/**").hasRole("ADMIN")
                         .requestMatchers("/*").permitAll()
-                        .requestMatchers("/static/**").permitAll()
-
                 )
                 .formLogin((form) -> form
                         .loginPage("/login")

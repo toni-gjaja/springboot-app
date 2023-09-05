@@ -2,6 +2,7 @@ package hr.webshop.entity;
 
 import jakarta.persistence.*;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 import java.sql.Timestamp;
 import java.time.LocalDate;
@@ -9,6 +10,7 @@ import java.util.List;
 
 @Entity
 @Data
+@NoArgsConstructor
 @Table(name = "receipt")
 public class Receipt {
 
@@ -36,5 +38,13 @@ public class Receipt {
             inverseJoinColumns = @JoinColumn(name = "productid")
     )
     private List<Product> products;
+
+    public Receipt(Double amount, String payment, AppUser appUser, List<Product> products){
+        this.createdAt = LocalDate.now();
+        this.amount = amount;
+        this.payment = payment;
+        this.appUser = appUser;
+        this.products = products;
+    }
 
 }
