@@ -51,6 +51,11 @@ public class Cart {
         return totalPrice;
     }
 
+    public String getFormattedTotalPrice(){
+        DecimalFormat df = new DecimalFormat("#.##");
+        return df.format(getTotalPrice());
+    }
+
     public List<Product> getProducts(){
         List<Product> result = new ArrayList<>();
         for (CartItem item : items){

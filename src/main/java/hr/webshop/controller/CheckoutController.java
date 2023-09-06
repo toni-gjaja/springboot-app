@@ -63,7 +63,7 @@ public class CheckoutController {
             Receipt receipt = new Receipt(cart.getTotalPrice(), payment, appUser, cart.getProducts());
             receiptService.saveReceipt(receipt);
             model.addAttribute("cart", cart);
-            model.addAttribute("receipt", receipt);
+            model.addAttribute("receipt", "JWP/R/nr." + receipt.getId().toString());
             model.addAttribute("address", address);
             model.addAttribute("user", appUser);
             request.getSession().removeAttribute("userCart");
