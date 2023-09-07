@@ -1,6 +1,8 @@
 package hr.webshop.service;
 
 import hr.webshop.entity.Product;
+import hr.webshop.model.Cart;
+import hr.webshop.model.CartItem;
 import hr.webshop.repository.ProductRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -35,4 +37,12 @@ public class ProductService {
     }
 
     public void saveProduct(Product product){ repo.save(product); }
+
+    public void updateStock(Cart cart) {
+
+        for(CartItem item : cart.getItems()){
+            repo.updateStock(item.getProduct().getId(), item.getProduct().getStock() - item.getQuantity());
+        }
+
+    }
 }

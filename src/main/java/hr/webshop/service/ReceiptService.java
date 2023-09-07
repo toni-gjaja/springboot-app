@@ -24,4 +24,6 @@ public class ReceiptService {
 
     public void saveReceipt(Receipt receipt){ repo.save(receipt); }
 
+    public List<Receipt> getAllByUserId(Long id){ return repo.findAllByAppUser_Id(id); }
+
 }

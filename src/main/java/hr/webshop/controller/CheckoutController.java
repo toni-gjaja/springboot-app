@@ -5,6 +5,7 @@ import hr.webshop.entity.Receipt;
 import hr.webshop.model.Cart;
 import hr.webshop.service.AppUserService;
 import hr.webshop.service.CartService;
+import hr.webshop.service.ProductService;
 import hr.webshop.service.ReceiptService;
 import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,11 +27,14 @@ public class CheckoutController {
     private final AppUserService appUserService;
 
     private final ReceiptService receiptService;
+
+    private final ProductService productService;
     @Autowired
-    public CheckoutController(CartService cartService, AppUserService appUserService, ReceiptService receiptService) {
+    public CheckoutController(CartService cartService, AppUserService appUserService, ReceiptService receiptService, ProductService productService) {
         this.cartService = cartService;
         this.appUserService = appUserService;
         this.receiptService = receiptService;
+        this.productService = productService;
     }
 
     @GetMapping("/checkout")
@@ -61,6 +65,7 @@ public class CheckoutController {
         AppUser appUser = appUserService.getUserByEmail(getEmailFromSession());
         if (appUser != null){
             Receipt receipt = new Receipt(cart.getTotalPrice(), payment, appUser, cart.getProducts());
+            productService.updateStock(cart);
             receiptService.saveReceipt(receipt);
             model.addAttribute("cart", cart);
             model.addAttribute("receipt", "JWP/R/nr." + receipt.getId().toString());

@@ -6,7 +6,53 @@
 </head>
 <body>
 
+<style>
+    .parent{
+        width: 100%;
+    }
+
+    .table-holder{
+        width: 70%;
+    }
+
+    .header{
+        color: white;
+    }
+
+</style>
+
 <div th:replace="fragments/usernavbar"></div>
+
+<div class="w-100 d-flex justify-content-center mb-3">
+    <h3 class="header">My receipts</h3>
+</div>
+
+<div class="parent d-flex justify-content-center">
+
+    <div class="table-holder">
+
+        <table class="table table-dark" id="receiptTable">
+            <thead>
+            <tr>
+                <th scope="col">Id</th>
+                <th scope="col">Created at</th>
+                <th scope="col">Amount</th>
+                <th scope="col">Payment</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr th:each="item : ${receipts}">
+                <td th:text="${item.getId()}"></td>
+                <td th:text="${item.getCreatedAt()}"></td>
+                <td th:text="${item.getAmount()}"></td>
+                <td th:text="${item.getPayment()}"></td>
+            </tr>
+            </tbody>
+        </table>
+
+    </div>
+
+</div>
 
 
 
