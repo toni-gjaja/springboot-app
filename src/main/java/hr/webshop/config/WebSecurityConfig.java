@@ -15,6 +15,7 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
+import org.springframework.web.servlet.config.annotation.ViewControllerRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
 @Configuration
@@ -65,6 +66,16 @@ public class WebSecurityConfig implements WebMvcConfigurer {
         auth.userDetailsService(userDetailsService)
                 .passwordEncoder(passwordEncoder());
     }
+    @Override
+    public void addViewControllers(ViewControllerRegistry registry){
+        registry.addViewController("/products").setViewName("products");
+        registry.addViewController("/").setViewName("welcome");
+        registry.addViewController("/login").setViewName("login");
+        registry.addViewController("/register").setViewName("registration");
+
+    }
+
+
 
 //    @Override
 //    public void addResourceHandlers(ResourceHandlerRegistry registry) {

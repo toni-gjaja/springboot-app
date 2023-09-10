@@ -63,7 +63,7 @@ public class AppUserService implements UserDetailsService {
             authorities.add(new SimpleGrantedAuthority(user.getRole()));
             return new User(user.getEmail(), user.getPassword(), authorities);
         }
-        return null;
+        throw new UsernameNotFoundException("User with email " + email + " does not exist.");
     }
 
 }

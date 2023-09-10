@@ -126,7 +126,12 @@
         pointer-events: all;
     }
 
-
+    .input-error {
+        border: 1px solid red;
+    }
+    .input-success {
+        border: 1px solid green;
+    }
 
 </style>
 
@@ -149,7 +154,7 @@
         <form th:action="@{/admin/createproduct}" method="post">
 
             <div class="form-group">
-                <label for="product-name">Name: </label>
+                <label for="product-name" id="lblProductName">Name: </label>
                 <input name="name" class="form-control" id="product-name" required>
             </div>
 
@@ -510,8 +515,6 @@
         searchInput = ""
         filterActive = false;
     }
-
-</script>
 
 <script></script>
 
